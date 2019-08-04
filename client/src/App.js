@@ -44,8 +44,6 @@ class App extends Component {
             <PublicRoute exact path="/campaign-page" component={CampaignPage}/>
             <PublicRoute exact path="/page-campaign-user" component={ PageCampaignUser}/>
             
-           {/* <Route exact path="" render = {()=> <Redirect to= "/login"/>}  /> */}
-            
           
           </div>
           </div>

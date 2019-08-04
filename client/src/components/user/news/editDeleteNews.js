@@ -3,13 +3,15 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import {withRouter} from 'react-router-dom'
+import Button from '@material-ui/core/Button';
+import EditNews from './editNews'
 const useStyles = makeStyles(theme => ({
     root: {
       padding: theme.spacing(3, 2),
     },
   }));
 
-function AllNews(props) {
+function EditDeleteNews(props) {
 
 
   var news = props.news.news;
@@ -29,7 +31,11 @@ function AllNews(props) {
                           <p>{item.description}</p>
                         
                           </Typography>
-                         
+                          <div className="row mx-1">
+                          <EditNews  className="mx-1" onUpdate ={props.onUpdate} id={item._id} name = {item.name} description={item.description}/>
+                          <Button className="mx-1" variant="outlined" color="primary" onClick={props.onDelete.bind(this, item._id)}>
+                                Delete
+                          </Button></div>
                           </Paper>
                            
                           <br/>
@@ -44,4 +50,4 @@ function AllNews(props) {
     
   }
 
-export default withRouter(AllNews)
+export default withRouter(EditDeleteNews)

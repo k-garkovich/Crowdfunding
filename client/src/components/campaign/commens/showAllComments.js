@@ -9,38 +9,31 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-function AllBonuses(props) {
-
-  var bonuses = props.bonuses.bonuses;
+function AllComments(props) {
+  const comments = props.comments;
   const classes = useStyles();
  
     return (
 
         <div> 
-         
-            { bonuses ?
-              bonuses.map((item, i) =>
+         <Paper className={classes.root}>
+            { comments ?
+              comments.map((item, i) =>
                       <div className="campaign-component" key={i}> 
-                         <Paper className={classes.root}>
                          <Typography className='text-left'>
-                          <p><b>{item.name}</b></p>
-                          <p>{item.description}</p>
-                          <p>Cost:  {item.cost} €</p>
+                         <p><b>{item.nameUser} {item.surnameUser}</b></p>
+                          <p>{item.text}</p>
                           </Typography>
                           <hr/>
-                          <Typography className='text-left'>
-                          <p><b>Login to get bonus.</b></p>
-                          </Typography>
-                          </Paper>
                           <br/>
                       </div>
-                  )
-                  : "Loading..."
+                  ): "Loading..."
             }
-            
+            </Paper>
+            <br/>
           </div>
     )
     
   }
 
-export default AllBonuses
+export default AllComments

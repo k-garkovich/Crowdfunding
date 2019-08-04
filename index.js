@@ -7,6 +7,9 @@ const port = 3001;
 const Campaign = require('./requests/campaignCrudService')
 const Admin = require('./requests/adminService.js');
 const Bonus = require('./requests/bonusService')
+const Comment = require('./requests/commentsService')
+const News = require('./requests/newsService.js')
+
 
 mongoose.connect('mongodb://localhost:27017/user', {useNewUrlParser: true}, function(err){
     if(err) return console.log(err);
@@ -17,4 +20,4 @@ mongoose.connect('mongodb://localhost:27017/user', {useNewUrlParser: true}, func
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use( User, Campaign, Admin, Bonus);
+app.use( User, Campaign, Admin, Bonus, Comment, News);

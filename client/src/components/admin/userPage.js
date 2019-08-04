@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import Mini from '../campaign/campaign-mini';
 import {withRouter} from 'react-router-dom'
 import {getOneUser, getCampaign} from '../actions/func-admin';
 import UserInfo from './users/userInfo'

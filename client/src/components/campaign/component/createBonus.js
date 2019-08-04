@@ -19,6 +19,11 @@ function FormBonus(props) {
   function handleClose() {
     setOpen(false);
   }
+
+  function create(val) {
+    props.onSubmit(val);
+    setOpen(false);
+  }
   
   return (
     <div>
@@ -71,7 +76,7 @@ function FormBonus(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={props.onSubmit.bind(this)} 
+          <Button onClick={create.bind(this)} 
            onChange={props.onChange.bind(this)}
           type="submit" className="btn btn-primary " color="primary" >
             Add

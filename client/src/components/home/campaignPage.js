@@ -7,6 +7,10 @@ import  AllBonuses  from '../campaign/component/showAllBonuses'
 import  AllNews  from '../campaign/component/showAllNews'
 import jwt_decode from 'jwt-decode'
 import TransferMoney from '../campaign/money/transferMoney'
+import {createComment,  getComments} from '../actions/functionComments'
+import FormComment from '../campaign/commens/createComment'
+import AllComments from '../campaign/commens/showAllComments'
+import { animateScroll } from "react-scroll";
 
 class CampaignPage extends Component {
     constructor(props) {
@@ -15,18 +19,25 @@ class CampaignPage extends Component {
           posts: [],
           bonuses:[],
           news: [],
+          comments: [],
           name: '',
           description: '',
           cost: '',
-          money: ''
+          money: '',
+          text: '',
+          nameUser: '',
+          surnameUser: '',
+          value: '',
+
         }
         this.onSup = this.onSup.bind(this)
         this.onTransfer = this.onTransfer.bind(this)
         this.onChange = this.onChange.bind(this)
+        this.onCreateComment = this.onCreateComment.bind(this)
     }
     
     onChange(e) {
-      this.setState({ [e.target.name]: e.target.value }
+      this.setState({ [e.target.name]: e.target.value , value: e.target.value}
         )
     }
     
@@ -34,7 +45,11 @@ class CampaignPage extends Component {
       this.mounted = true;
       this.populatePosts(); 
     }
-    
+    scrollToBottom() {
+    animateScroll.scrollToBottom({
+      containerId: "comments"
+    });
+    }
     populatePosts() {
       
       let { campaignId } = this.props.location
@@ -67,6 +82,11 @@ class CampaignPage extends Component {
           this.setState({news: news});
         }
       });
+      getComments(campaignId).then(res=>{
+          const comments = res
+          this.setState({comments: comments},this.scrollToBottom );
+          
+      })
      
     }
 
@@ -84,7 +104,6 @@ class CampaignPage extends Component {
       }
 
       getOneCampaign(campaignId).then(res => {
-       
           const posts = res;
           let count = posts[0].money + data.cost
           let amount_money = posts[0].amount_money
@@ -99,15 +118,15 @@ class CampaignPage extends Component {
               const description = res[0].description
               const cost = res[0].cost
               
-               saveBonus({bonusId,userId,name,description,cost } )
+               saveBonus({bonusId,userId,name,description,cost})
             })
           })   
       });
     }
 
+
     
    onTransfer(){
-   
     let { campaignId } = this.props.location
     if(!campaignId) {
       campaignId = localStorage.getItem('c'); 
@@ -117,7 +136,6 @@ class CampaignPage extends Component {
 
     getOneCampaign(campaignId).then(res => {
         const money = Number(this.state.money)
-        //console.log(money)
         const posts = res;
         let count = posts[0].money + money
         let amount_money = posts[0].amount_money
@@ -129,9 +147,32 @@ class CampaignPage extends Component {
           this.populatePosts();
         })
     });
-  }
-  
 
+    
+  }
+ 
+  
+  onCreateComment(e){
+    e.preventDefault()
+    const token = localStorage.usertoken
+    const decoded = jwt_decode(token)
+    let { campaignId } = this.props.location
+    if(!campaignId) {
+      campaignId = localStorage.getItem('c'); 
+    } else {
+      localStorage.setItem('c',campaignId);
+    }
+    const newComment ={
+      text: this.state.text,
+      nameUser: decoded.first_name,
+      surnameUser: decoded.last_name,
+      campaignId:  campaignId
+    }
+    createComment(newComment).then(res =>{
+      
+      this.populatePosts();
+    })
+  }
     render() {
         return ( 
         <div className="container">
@@ -150,7 +191,13 @@ class CampaignPage extends Component {
                     <AllBonuses bonuses = {this.state}  onSup={this.onSup}/>
                   </div> 
               </div>
-                
+              <hr/>
+              <div>
+                <div id='comments' style={{maxHeight: 500, overflowY: 'auto'}} > 
+                    <AllComments comments={this.state.comments} />
+                </div>
+                <FormComment comment = {this.state.text} onCreate={this.onCreateComment} onChange={this.onChange} />
+              </div>
             </div>
         </div>
     )
@@ -161,3 +208,5 @@ class CampaignPage extends Component {
 }
 
 export default withRouter(CampaignPage)
+
+

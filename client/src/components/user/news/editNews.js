@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,10 +7,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-function FormNews(props) {
+function EditNews(props) {
 
   
   const [open, setOpen] = React.useState(false);
+  const [name, setName] = useState( props.name);
+  const [description, setDesc] = useState(props.description);
+  const [id] = useState(props.id);
   
   function handleClickOpen() {
     setOpen(true);
@@ -21,18 +24,18 @@ function FormNews(props) {
   }
   
 
-  function create(val) {
-    props.onSub(val);
+  function update(val) {
+    props.onUpdate(val);
     setOpen(false);
   }
 
   return (
     <div>
      
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        Add news
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Edit
       </Button>
-      <form noValidate onSub={props.onSub.bind(this)}>
+      <form noValidate >
       <Dialog  open={open} onClose={handleClose}  maxWidth="sm">
         <DialogTitle id="form-dialog-title">Add bonus</DialogTitle>
         <DialogContent >
@@ -48,7 +51,9 @@ function FormNews(props) {
             label="Name"
             type="text"
             fullWidth
-            onChange={props.onChange.bind(this)}
+            onChange={e=>{const newName =  e.target.value
+                setName(newName)}}
+            value={name}
           />
           <TextField
             name="descNews"
@@ -59,7 +64,9 @@ function FormNews(props) {
           label="Description"
           type="text"
           fullWidth
-          onChange={props.onChange.bind(this)}
+          onChange={e=>{const newDesc =  e.target.value
+          setDesc(newDesc)}}
+          value={description}
         />
         
         </DialogContent>
@@ -67,10 +74,9 @@ function FormNews(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={create.bind(this)} 
-           onChange={props.onChange.bind(this)}
-          type="submit" className="btn btn-primary " color="primary" >
-            Add
+          <Button onClick={update.bind(this,{description, name, id})} 
+          type="submit"  color="primary" >
+           Edit
           </Button>
         </DialogActions>
       </Dialog>
@@ -79,4 +85,4 @@ function FormNews(props) {
   );
 }
 
-export default FormNews
+export default EditNews

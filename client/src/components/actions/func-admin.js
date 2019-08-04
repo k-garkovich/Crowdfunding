@@ -108,7 +108,7 @@ export const getAllUser = () => {
 
 
   export const changeRole = data => {
-    console.log(data)
+  
     return axios
     .put('change-role', { params: {
       data:data

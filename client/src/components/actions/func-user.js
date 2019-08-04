@@ -54,4 +54,19 @@ export const getProfile = user => {
   }
 
 
-  
+  export const updateUser = (data) => {
+     
+    return axios
+      .put('update-user', { params: {
+        data:data
+      }
+     
+      })
+      .then(response => {
+        return response.data
+        
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }

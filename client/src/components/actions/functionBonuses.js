@@ -92,3 +92,21 @@ export const deleteBonus = bonusId => {
       console.log(err)
     })
 }
+
+
+export const updateBonus = (data) => {
+     
+  return axios
+    .put('update-bonus', { params: {
+      data:data
+    }
+   
+    })
+    .then(response => {
+      return response.data
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}

@@ -108,4 +108,24 @@ router.post('/create-bonus', (req, res) => {
     });
   });
 
+
+  router.put('/update-bonus', (req, res) =>{
+   
+    const bonusId = req.body.params.data.bonusId
+    Bonus.update({_id: bonusId}, 
+      {
+       
+        name: req.body.params.data.name,
+        description: req.body.params.data.description,
+        cost: req.body.params.data.cost
+  
+      })
+          .then(post =>{
+              res.send(post);
+          })
+          .catch(err => {
+            res.send('error: ' + err)
+          })
+  })
+
 module.exports = router;

@@ -27,7 +27,7 @@ import {withRouter} from 'react-router-dom'
             icon: 'view_column',
             tooltip: 'Page user',
             onClick: (event, rowData) => {
-              console.log(rowData._id)
+          
             props.getUser(rowData._id)
             }
           },

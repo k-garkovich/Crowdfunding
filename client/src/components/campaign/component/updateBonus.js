@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-function FormNews(props) {
+function FormBonus(props) {
 
   
   const [open, setOpen] = React.useState(false);
@@ -20,57 +20,62 @@ function FormNews(props) {
     setOpen(false);
   }
   
-
-  function create(val) {
-    props.onSub(val);
-    setOpen(false);
-  }
-
   return (
     <div>
      
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        Add news
+        Edit
       </Button>
-      <form noValidate onSub={props.onSub.bind(this)}>
+      <form noValidate onSubmit={props.onSubmit.bind(this)}>
       <Dialog  open={open} onClose={handleClose}  maxWidth="sm">
-        <DialogTitle id="form-dialog-title">Add bonus</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit bonus</DialogTitle>
         <DialogContent >
           <DialogContentText>
             Enter the data.
           </DialogContentText>
           <TextField
-            name="nameNews"
+            name="name"
             autoFocus
             className="form-control "
             margin="dense"
-            id="nameNews"
+            id="name"
             label="Name"
             type="text"
             fullWidth
             onChange={props.onChange.bind(this)}
+            // value={props.name}
           />
           <TextField
-            name="descNews"
+            name="description"
           autoFocus
           className="form-control "
           margin="dense"
-          id="descNews"
+          id="description"
           label="Description"
           type="text"
           fullWidth
           onChange={props.onChange.bind(this)}
         />
-        
+        <TextField
+            name="cost"
+          autoFocus
+          className="form-control "
+          margin="dense"
+          id="cost"
+          label="Cost"
+          type="number"
+          fullWidth
+          onChange={props.onChange.bind(this)}
+        />
         </DialogContent>
         <DialogActions >
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={create.bind(this)} 
+          <Button onClick={props.onSubmit.bind(this)} 
            onChange={props.onChange.bind(this)}
           type="submit" className="btn btn-primary " color="primary" >
-            Add
+              Update
           </Button>
         </DialogActions>
       </Dialog>
@@ -79,4 +84,4 @@ function FormNews(props) {
   );
 }
 
-export default FormNews
+export default FormBonus

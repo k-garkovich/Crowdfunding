@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-import {getOneCampaign, createNews, getNews } from '../actions/func-campaign'
+import {getOneCampaign, createNews, getNews, deleteNews, updateNews } from '../actions/func-campaign'
 import  PageOneCampaign  from '../campaign/component/showOneCampaign'
 import {withRouter} from 'react-router-dom'
 import {getBonuses} from '../actions/functionBonuses'
-import  EditDeleteBonus  from './editDeleteBonus'
-import  AllNews  from '../campaign/component/showAllNews'
-import {createBonus, deleteBonus} from '../actions/functionBonuses'
+import  EditDeleteBonus  from './bonuses/editDeleteBonus'
+import  EditDeleteNews  from './news/editDeleteNews'
+import {createBonus, deleteBonus, updateBonus} from '../actions/functionBonuses'
 import FormBonus from '../campaign/component/createBonus';
-
+import FormComment from '../campaign/commens/createComment'
+import AllComments from '../campaign/commens/showAllComments'
+import { animateScroll } from "react-scroll";
 import FormNews from '../campaign/component/createNews';
-
+import {createComment,  getComments} from '../actions/functionComments'
+import jwt_decode from 'jwt-decode'
 class PageCampaignUser extends Component {
     constructor(props) {
         super(props)
@@ -29,6 +32,10 @@ class PageCampaignUser extends Component {
         this.onSubmit = this.onSubmit.bind(this)
         this.onSub = this.onSub.bind(this)
         this.onDeleteBonus = this.onDeleteBonus.bind(this)
+        this.onDeleteNews = this.onDeleteNews.bind(this)
+        this.onCreateComment = this.onCreateComment.bind(this)
+        this.onUpdateBonus = this.onUpdateBonus.bind(this)
+        this.onUpdateNews = this.onUpdateNews.bind(this)
     }
 
     onChange(e) {
@@ -71,6 +78,11 @@ class PageCampaignUser extends Component {
       this.mounted = true;
       this.populatePosts();
     }
+
+    scrollToBottom() {
+      animateScroll.scrollToBottom({
+        containerId: "comments"
+      });}
     
     populatePosts() {
       
@@ -104,6 +116,11 @@ class PageCampaignUser extends Component {
           this.setState({news: news});
         }
       });
+
+      getComments(campaignId).then(res=>{
+        const comments = res
+        this.setState({comments: comments},this.scrollToBottom );
+    });
      
     }
 
@@ -112,7 +129,58 @@ class PageCampaignUser extends Component {
         this.populatePosts();
       })
     }
+
+    onDeleteNews(item){
+      deleteNews(item).then(res=>{
+        this.populatePosts();
+      })
+    }
+
+    onCreateComment(e){
+      e.preventDefault()
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+      let { campaignId } = this.props.location
+      if(!campaignId) {
+        campaignId = localStorage.getItem('c'); 
+      } else {
+        localStorage.setItem('c',campaignId);
+      }
+      const newComment ={
+        text: this.state.text,
+        nameUser: decoded.first_name,
+        surnameUser: decoded.last_name,
+        campaignId:  campaignId
+      }
+      createComment(newComment).then(res =>{
+        
+        this.populatePosts();
+      })
+    }
     
+    onUpdateBonus(data){
+
+      const upBonus = {
+        name: data.name,
+        description: data.description,
+        cost: data.cost,
+        bonusId: data.id
+      }
+      updateBonus(upBonus).then(res=>{
+        this.populatePosts();
+      })
+    }
+
+    onUpdateNews(data){
+      const upNews = {
+        name: data.name,
+        description: data.description,
+        newsId: data.id
+      }
+        updateNews(upNews).then(res=>{
+          this.populatePosts();
+      })
+    }
   
     render() {
         return ( 
@@ -121,22 +189,28 @@ class PageCampaignUser extends Component {
               <div className='row'>
                   <div className ='col-sm-9'>
                     <PageOneCampaign  posts = {this.state} />
-                    
-                    <br/> <h4>News</h4>
-                    <AllNews news = {this.state} />
+                    <FormNews data={this.state.name} onSub={this.onSub} onChange={this.onChange}/>
+                    <br/> 
+                    <h4>News</h4>
+                    <EditDeleteNews news = {this.state} onDelete={this.onDeleteNews} onUpdate={this.onUpdateNews}/>
                   </div>
-                  <div className='col-sm-3'>
-                  <FormBonus data={this.state.name} onSubmit={this.onSubmit} onChange={this.onChange}/>
-                  <hr/>
-                    <EditDeleteBonus bonuses = {this.state}    onDelete={this.onDeleteBonus} />
-                 
-                  </div> 
 
-              <FormNews data={this.state.name} onSub={this.onSub} onChange={this.onChange}/>
+                  <div className='col-sm-3'>
+                    <FormBonus data={this.state.name} onSubmit={this.onSubmit} onChange={this.onChange}/>
+                    <hr/>
+                    <EditDeleteBonus bonuses = {this.state} onUpdate={this.onUpdateBonus}  onDelete={this.onDeleteBonus} />
+                  </div> 
               </div>
-                  
-                 
-                  
+
+              <div>
+                <hr/>
+                <h4>Comments</h4>
+                <br/>
+                  <div id='comments' style={{maxHeight: 500, overflowY: 'auto'}} > 
+                    <AllComments comments={this.state.comments} />
+                  </div>
+                <FormComment comment = {this.state.text} onCreate={this.onCreateComment} onChange={this.onChange} />
+              </div>
             </div>
         </div>
     )

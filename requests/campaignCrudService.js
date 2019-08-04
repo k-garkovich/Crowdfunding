@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Campaign = require('../models/schema-campaign.js');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const cors = require('cors');
-const News = require('../models/schemaNews.js');
 router.use(cors());
 
 router.get('/get', (req, res) =>{
@@ -99,6 +96,28 @@ router.put('/update', (req, res) =>{
 
 })
 
+router.put('/update-campaign', (req, res) =>{
+    const campaignId = req.body.params.data.campaignId
+    Campaign.update({_id: campaignId}, 
+      {
+        name: req.body.params.data.name,
+        description: req.body.params.data.description,
+        subject: req.body.params.data.subject,
+        video: req.body.params.data.video,
+        amount_money: req.body.params.data.amount_money,
+        date: req.body.params.data.date,
+        userName: req.body.userName,
+        userLast: req.body.userLast
+  
+      })
+          .then(post =>{
+              res.send(post);
+          })
+          .catch(err => {
+            res.send('error: ' + err)
+          })
+  })
+
 
 router.get('/getone', (req, res) =>{
 
@@ -118,42 +137,6 @@ router.get('/getone', (req, res) =>{
 
 });
 
-router.post('/create-news', (req, res) => {
-  News.create({
-      name: req.body.name,
-      description: req.body.description,
-      campaignId: req.body.campaignId
-
-   },)
-   .then((post)=>{
-
-     res.send(post);
-       res.json({ status: post + ' Create!' });
-       
-       
-   })
-   .catch(err => {
-       res.send('error: ' + err)
-     })
-   
-})
-
-router.get('/get-news', (req, res) =>{
-
-  const campaignId = req.query.campaignId;
-  
-  News.find({campaignId:campaignId}).then((post,err)=>{
-      
-      if (post) {
-          res.json(post)
-        } 
-        else {
-          console.log(err);
-          res.send('No such news.')
-        }
-  });
-
-});
 
 module.exports = router;
 

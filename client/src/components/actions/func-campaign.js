@@ -130,3 +130,52 @@ export const getNews = campaignId => {
       console.log(err)
     })
 }
+
+export const updateCampaign = (data) => {
+     
+  return axios
+    .put('update-campaign', { params: {
+      data:data
+    }
+   
+    })
+    .then(response => {
+      return response.data
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+export const updateNews = (data) => {
+     
+  return axios
+    .put('update-news', { params: {
+      data:data
+    }
+   
+    })
+    .then(response => {
+      return response.data
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+export const deleteNews = newsId => {
+  return axios
+    .get('delete-news', { params: {
+      newsId:newsId
+    }
+    })
+    .then(response => {
+      return response.data
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}

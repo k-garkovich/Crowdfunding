@@ -157,6 +157,21 @@ router.get('/getusers', (req, res) =>{
 });
 
 
+router.put('/update-user', (req, res) =>{
+  const userId = req.body.params.data.userId
+  User.update({_id: userId}, 
+    {
+      first_name: req.body.params.data.first_name,
+      last_name: req.body.params.data.last_name
+
+    })
+        .then(post =>{
+            res.send(post);
+        })
+        .catch(err => {
+          res.send('error: ' + err)
+        })
+})
 module.exports = router;
 
 

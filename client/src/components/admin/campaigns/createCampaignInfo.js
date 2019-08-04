@@ -68,7 +68,6 @@ class General extends Component{
         
         create(newCampaign).then(res => {
           if (res) { 
-            
             const campaignId = res._id
             localStorage.setItem('id',campaignId);
             alert('Campaign created! Create bonuses!')

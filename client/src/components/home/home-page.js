@@ -47,7 +47,7 @@ class Home extends Component {
     render() {
         return ( 
         <div className="container">
-            <div className=" " style={{maxHeight: 1000, overflow: 'auto'}}>
+            <div className=" " >
               <br/>
              <h2>Crowdfunding</h2>
               <h4>Collective financing interesting project.</h4>

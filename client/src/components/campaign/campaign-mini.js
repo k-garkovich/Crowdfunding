@@ -66,8 +66,7 @@ class Mini extends  Component{
         return ( 
         <div >
             <br/>
-            {/* <TableCampaign posts = {this.state} onSub={this.onSub} onDelete={this.onDelete}/> */}
-
+           
             <TableCampaign posts = {this.state.posts} onDelete={this.onDelete} onSub={this.onSub}/>
         </div>
     )

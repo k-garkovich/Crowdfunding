@@ -8,39 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import {withRouter} from 'react-router-dom'
 import AdminPanel from './usersList'
 import CampaignsList from './campaignsList'
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     width: '100%',
-//     maxWidth: '160px',
-//     backgroundColor: theme.palette.background.paper,
-//     position: 'absolute',
-//     left: 0
-    
-//   },
-// }));
 
-// function ListDividers() {
-//   const classes = useStyles();
-
-//   return (
-//     <List  className={classes.root} aria-label="mailbox folders">
-//       <Divider light />
-//       <ListItem button divider>
-//         <Link to="/users" className="nav-link" >
-//             <ListItemText primary="Users" />
-//         </Link>
-//       </ListItem>
-//       <ListItem button>
-//         <Link to="/campaigns" className="nav-link" >
-//             <ListItemText primary="Campaigns" />
-//         </Link>
-//       </ListItem>
-//       <Divider light />
-      
-//     </List>
-//   );
-// }
-// export default withRouter(ListDividers) 
 
 
 function TabContainer(props) {

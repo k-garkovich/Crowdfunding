@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import jwt_decode from 'jwt-decode';
 import {withRouter} from 'react-router-dom';
-import {getBonusesUser} from '../actions/functionBonuses';
+import {getBonusesUser} from '../../actions/functionBonuses';
 
 import ListBonusesUser from './listBonusesUser'
 
@@ -34,7 +34,7 @@ class BonusesUser extends Component {
       <li class="list-group-item">
       <ListBonusesUser bonuses={this.state.bonus}/>
       </li>
-                         </ul>
+      </ul>
                          
     )
   }

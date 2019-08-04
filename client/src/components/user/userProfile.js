@@ -4,8 +4,7 @@ import Mini from '../campaign/campaign-mini';
 import {withRouter} from 'react-router-dom';
 import UserInfo from './userInfo';
 import {getBonusesUser} from '../actions/functionBonuses';
-import BonusesUser from './listBonuses'
-// import Standard from '../campaign/create/image'
+import BonusesUser from './bonuses/listBonuses'
 
 class Profile extends Component {
   constructor(props) {
